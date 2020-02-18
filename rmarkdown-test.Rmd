@@ -1,0 +1,58 @@
+---
+title: "Rmarkdown-test"
+author: "Mireia Valle"
+date: "18/2/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Header one
+
+Here is some explanation about what I'm doing. **bold text here**
+
+Here is another para
+
+* apple
+* banana
+* kiwi
+
+$\sum{x^2}$
+
+Opening a code chunk: ctrl + alt + i
+
+```{r name_1}
+# comment
+
+x <- c(1, 13, -5)
+x
+
+```
+
+Here is a hidden chunk 
+
+```{r, echo= FALSE}
+y <- x + 4
+print(y)
+```
+
+Getting help in R 
+
+```{r, eval = FALSE}
+?read.csv 
+```
+
+How work functions?
+
+```{r, eval = FALSE}
+function_name(name1 = value1, name2 = value2, ...)
+```
+
+Reading the data we downloaded and uploaded to AURORA
+
+```{r}
+bg_chem <- read.csv(file = "data/BGchem2008data.csv", stringsAsFactors = FALSE)
+```
+
