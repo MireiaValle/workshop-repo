@@ -1,4 +1,4 @@
-## Worshop Repository
+## Workshop Repository
 
 2020 SNAPP/NCEAS postdoc Data Science and Collaboration Skills workshop at NCEAS from Feb 18-21, 2020 my change Mireia
 
