@@ -1,0 +1,87 @@
+---
+title: "Day3_functions"
+author: "Mireia Valle"
+date: "20/2/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Source my functions
+
+```{r}
+source("my_functions.R")
+```
+
+
+## Defining a function
+
+```{r}
+plus_one <- function(x){
+  x + 1
+}
+```
+
+## Call the function
+
+```{r}
+my_number_plus_one <- plus_one(10)
+
+my_number_plus_one
+```
+
+Passing the function to a vector
+
+```{r}
+plus_one(c(2,3,10))
+```
+
+Writing a function that computes the percentage of a number
+
+```{r}
+compute_percentage <- function(input_percent, input_number){
+  output = input_number*input_percent/100
+  output
+}
+
+compute_percentage(100, 20)
+```
+
+Make a ratio factor an argument so we can also use it to compute 1/1000
+
+```{r}
+compute_ratio <- function(ratio, number, place=100){
+  output = number*ratio/place
+  return (output)
+}
+
+compute_ratio (ratio = 55, number = 1900, place = 200)
+```
+
+# Using "insert Roxygen Skeleton" in the menu Code --> 
+```{r}
+#' Title
+#'
+#' @param ratio number used for the ratio
+#' @param number number used to apply ratio
+#' @param place number denominator
+#'
+#' @return
+#' @export
+#'
+#' @examples compute_ratio (ratio = 55, number = 1900, place = 200)
+
+compute_ratio <- function(ratio, number, place=100){
+  output = number*ratio/place
+  return (output)
+}
+
+compute_ratio (ratio = 55, number = 1900, place = 200)
+
+```
+
+
