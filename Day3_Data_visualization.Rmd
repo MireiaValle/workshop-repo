@@ -1,0 +1,75 @@
+---
+title: "Day3_data_visualization"
+author: "Mireia Valle"
+date: "20/2/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Loading all libraries
+```{r, warning = FALSE, message = FALSE}
+library(leaflet)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(DT)
+library(scales) # install.packages("scales")
+library(patchwork) # install.packages("patchwork")
+```
+
+## Loading data
+
+```{r}
+data_url <- "https://knb.ecoinformatics.org/knb/d1/mn/v2/object/urn%3Auuid%3Af119a05b-bbe7-4aea-93c6-85434dcb1c5e"
+
+# we use tryCatch to look if the data we want to load is in our project project, in case it isn't, then we will get an error message and it will download it from the url we gave above
+
+esc <- tryCatch(
+    read.csv("data/escapement.csv", stringsAsFactors = FALSE),
+    error=function(cond) {
+        message(paste("Escapement file does not seem to exist, so get it from the KNB."))
+        esc <- read.csv(url(data_url, method = "libcurl"), stringsAsFactors = FALSE)
+        return(esc)
+    }
+)
+
+head(esc)
+
+```
+
+## Data Processing
+
+We want to calculate the annual escapment by species and region
+
+```{r}
+annual_esc <- esc %>% 
+  #we are going to break the date column into three different columns
+  separate(sampleDate, c("Year", "Month", "Day"), sep = "-") %>% 
+  #transform the new columns we created to numeric 
+  mutate(Year = as.numeric(Year),
+         Month = as.numeric(Month),
+         Day = as.numeric(Day)) %>%
+  #Group by multiple columns, it creates subsets of your data
+  group_by(Species, SASAP.Region, Year) %>% 
+  #calculate statistics
+  summarise(escapement = sum(DailyCount)) %>% 
+  #we don't want all species, we only want some of them
+  filter(Species %in% c("Chinook", "Sockeye", "Chum", "Coho", "Pink"))
+
+head(annual_esc)
+```
+
+Example using %in% operator
+```{r}
+v <- c(1,2,3)
+
+2 %in% v
+```
+
+
+
