@@ -83,10 +83,109 @@ ggplot(annual_esc, aes(x = Species, y = escapement)) +
 ```
 
 Changing the color of the geometric's fill to blue
+
 ```{r}
 ggplot(annual_esc, aes(x = Species, y = escapement)) +
   geom_col(fill = "blue")
 ```
 
+Distinguish each region
 
+```{r}
+ggplot(annual_esc, aes(x = Species, y = escapement, fill = SASAP.Region)) +
+  geom_col()
+```
+
+### Looking into the Kodiak region
+
+```{r}
+annual_esc %>% 
+  filter(SASAP.Region == "Kodiak") %>% 
+  ggplot(aes(x = Year, y = escapement)) +
+  geom_line()
+```
+
+What is going on for each species
+
+```{r}
+annual_esc %>% 
+  filter(SASAP.Region == "Kodiak") %>% 
+  ggplot(aes(x = Year, y = escapement, color = Species)) +
+  geom_line() +
+  #adding points to observations
+  geom_point() +
+  #adding a label
+  ylab("Escapment") +
+  #adding a title
+  ggtitle("Salmon Annual Escapement for Kodiak Region") +
+  #making the background white
+  theme_bw() +
+  #center the title
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom")
+
+```
+
+Save your theme to an object
+
+```{r}
+my_theme <-   theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
+        #removing the title of the legend
+        legend.title = element_blank())
+```
+
+Using my_theme
+
+```{r}
+annual_esc %>% 
+  filter(SASAP.Region == "Kodiak") %>% 
+  ggplot(aes(x = Year, y = escapement, color = Species)) +
+  geom_line() +
+  #adding points to observations
+  geom_point() +
+  #adding a label
+  ylab("Escapment") +
+  #adding a title
+  ggtitle("Salmon Annual Escapement for Kodiak Region") +
+  #using my_theme
+  my_theme
+```
+
+Playing with Facet, we are going to plot the escapement data for each region as a multiple plot
+
+```{r}
+ggplot(annual_esc, aes(x = Year, y = escapement, color = Species)) + 
+    geom_line() +
+    geom_point() +
+  #set the labels to comma
+    scale_y_continuous(labels = comma) +
+  #calling the facet
+    facet_wrap(~SASAP.Region, scales = "free_y", ncol = 2) +
+    ylab("Escapement") +
+    my_theme
+```
+
+Using patchwork for plotting plots together
+
+```{r}
+#We create an object with the ggplot arguments
+test_ggplot <- ggplot(annual_esc, aes(x = Species, y = escapement)) +
+  geom_col()
+
+test_ggplot
+
+test_ggplot2 <- ggplot(annual_esc, aes(x = Species, y = escapement)) +
+  geom_col(fill = "blue")
+
+test_ggplot2
+
+#ploting the two plots together with patchwork
+test_ggplot + test_ggplot2
+
+#one after the other
+test_ggplot / test_ggplot2
+
+```
 
