@@ -71,5 +71,22 @@ v <- c(1,2,3)
 2 %in% v
 ```
 
+## Data Visualization
+
+### First look at the data
+
+Making a bar plot
+
+```{r}
+ggplot(annual_esc, aes(x = Species, y = escapement)) +
+  geom_col()
+```
+
+Changing the color of the geometric's fill to blue
+```{r}
+ggplot(annual_esc, aes(x = Species, y = escapement)) +
+  geom_col(fill = "blue")
+```
+
 
 
